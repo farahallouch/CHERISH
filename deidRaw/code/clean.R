@@ -90,6 +90,7 @@ cherish <- cherish %>%
          cherish_survey_complete,
          cherish_survey_complete.factor,
          a_and_choose_one,
-         a_and_choose_one.factor))
+         a_and_choose_one.factor,
+         b_traveling_to_medical_app))
            
 save(cherish, file = "C:/Users/fallouch/Box/PhD/CHERISH/CHERISH/deidRaw/output/cherish.RData")
