@@ -4,6 +4,11 @@ library(tidyverse)
 
 load("C:/Users/fallouch/Box/PhD/CHERISH/CHERISH/deidRaw/output/cherish.RData")
 
+# cherish %>% 
+#   select(-record_id) %>% 
+#   gtsummary::tbl_summary(by = q10.factor,
+#                          digits = ~ c(2))
+
 # OVERALL
 # Neighborhood
 summary(cherish$q1)
