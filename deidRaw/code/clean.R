@@ -116,7 +116,7 @@ cherish <- cherish %>%
                                           q22___3.factor == "Checked" ~ 3,
                                           q22___4.factor == "Checked" ~ 4,
                                           q22___5.factor == "Checked" ~ 5,
-                                          q22___6.factor == "Checked" ~ 6))) 
+                                          q22___6.factor == "Checked" ~ 6)))
            
 library(labelled)
 
