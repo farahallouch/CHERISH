@@ -16,21 +16,6 @@ cherish %>%
   as_flex_table() %>%
   flextable::save_as_docx(path = "mutate/output/merged/neighborhood.docx")
 
-summary(cherish$q1)
-
-summary(cherish$a_there_are_walkable_sidew.factor)
-summary(cherish$b_there_are_facilities_to.factor)
-summary(cherish$c_my_neighborhood_has_free.factor)
-summary(cherish$d_there_are_many_shops_sto.factor)
-summary(cherish$e_a_large_selection_of_fre.factor)
-
-summary(cherish$a_people_around_here_are_w.factor)
-summary(cherish$b_people_in_my_neighborhoo.factor)
-summary(cherish$c_people_in_my_neighborhoo.factor)
-summary(cherish$d_people_in_my_neighborhoo.factor)
-summary(cherish$e_i_feel_safe_walking_in_m.factor)
-summary(cherish$f_violence_is_a_problem_in.factor)
-
 # Food and health
 cherish <- cherish %>% 
   mutate(q5.factor = as.factor(case_when(q5.factor == "Yes" ~ 1,
@@ -167,66 +152,6 @@ cherish %>%
   as_flex_table() %>%
   flextable::save_as_docx(path = "mutate/output/merged/food and health.docx")
 
-summary(cherish$q4.factor)
-summary(cherish$q5.factor)
-
-summary(cherish$q6.factor)
-summary(cherish$a.factor)
-
-summary(cherish$q7.factor)
-summary(cherish$q7a.factor)
-
-summary(cherish$q8.factor)
-summary(cherish$q8a.factor)
-
-summary(cherish$q9.factor)
-summary(cherish$q9a.factor)
-
-summary(cherish$q10.factor)
-summary(cherish$q11.factor)
-
-summary(cherish$q12.factor)
-summary(cherish$q13.factor)
-
-summary(cherish$q14.factor)
-summary(cherish$q15.factor)
-
-summary(cherish$q16.factor)
-summary(cherish$q17.factor)
-summary(cherish$q17a___1.factor)
-summary(cherish$q17a___2.factor)
-summary(cherish$q17a___3.factor)
-summary(cherish$q17a___4.factor)
-summary(cherish$q17a___5.factor)
-
-summary(cherish$a_asking_questions_to_your.factor)
-summary(cherish$b_traveling_to_medical_app.factor)
-summary(cherish$c_understanding_medical_tr.factor)
-
-summary(cherish$q19___1.factor)
-summary(cherish$q19___2.factor)
-summary(cherish$q19___3.factor)
-summary(cherish$q19___4.factor)
-summary(cherish$q19___5.factor)
-
-summary(cherish$q20.factor)
-summary(cherish$q21___1.factor)
-summary(cherish$q21___2.factor)
-summary(cherish$q21___3.factor)
-summary(cherish$q21___4.factor)
-summary(cherish$q21___5.factor)
-summary(cherish$q21___6.factor)
-summary(cherish$q21___7.factor)
-summary(cherish$q21___8.factor)
-summary(cherish$q21___9.factor)
-
-summary(cherish$q22___1.factor)
-summary(cherish$q22___2.factor)
-summary(cherish$q22___3.factor)
-summary(cherish$q22___4.factor)
-summary(cherish$q22___5.factor)
-summary(cherish$q22___6.factor)
-
 # Trust and mistrust in health care
 cherish %>% 
   select(a_sometimes_doctors_care_m.factor, b_doctor_are_extremely_tho.factor, c_you_completely_trust_doc.factor, d_a_doctor_would_never_mis.factor, e_all_in_all_you_have_comp.factor,
@@ -238,28 +163,6 @@ cherish %>%
   as_flex_table() %>%
   flextable::save_as_docx(path = "mutate/output/merged/trust and mistrust in health care.docx")
 
-summary(cherish$a_sometimes_doctors_care_m.factor)
-summary(cherish$b_doctor_are_extremely_tho.factor)
-summary(cherish$c_you_completely_trust_doc.factor)
-summary(cherish$d_a_doctor_would_never_mis.factor)
-summary(cherish$e_all_in_all_you_have_comp.factor)
-
-summary(cherish$a_religious_spiritual_beli.factor)
-summary(cherish$b_i_tend_to_avoid_things_h.factor)
-
-summary(cherish$a_medical_researchers_have.factor)
-summary(cherish$b_it_is_safe_to_be_in_a_me.factor)
-summary(cherish$c_there_are_some_things_ab.factor)
-summary(cherish$d_medical_researchers_do_n.factor)
-
-table(cherish$increase_physical_activity, useNA = "always")
-table(cherish$reduce_sugar_intake, useNA = "always")
-table(cherish$reduce_salt_intake, useNA = "always")
-table(cherish$eat_more_fruits_and_vegata, useNA = "always")
-table(cherish$reduce_processed_foods, useNA = "always")
-table(cherish$lose_weight, useNA = "always")
-table(cherish$quit_smoking, useNA = "always")
-
 # CHERISH program
 cherish %>% 
   select(a_i_think_being_connected.factor, b_i_think_receiving_health.factor, c_i_think_participating_in.factor, d_i_think_participating_in.factor, e_i_think_measuring_my_blo.factor) %>% 
@@ -267,12 +170,6 @@ cherish %>%
   bold_labels() %>% 
   as_flex_table() %>%
   flextable::save_as_docx(path = "mutate/output/merged/CHERISH program.docx")
-
-summary(cherish$a_i_think_being_connected.factor)
-summary(cherish$b_i_think_receiving_health.factor)
-summary(cherish$c_i_think_participating_in.factor)
-summary(cherish$d_i_think_participating_in.factor)
-summary(cherish$e_i_think_measuring_my_blo.factor)
 
 # Demographics
 cherish %>% 
@@ -282,750 +179,194 @@ cherish %>%
   as_flex_table() %>%
   flextable::save_as_docx(path = "mutate/output/merged/demographics.docx")
 
-summary(cherish$q28)
-summary(cherish$q29.factor)
-summary(cherish$q30.factor)
-summary(cherish$q31.factor)
-summary(cherish$q32.factor)
-summary(cherish$q33.factor)
-summary(cherish$q34.factor)
-
 
 
 # BY SEX
-# FEMALE
 # Neighborhood
-cherish_main <- cherish
-
-cherish <- cherish %>% 
-  filter(q29.factor == "Female")
-
-summary(cherish$q1)
-
-summary(cherish$a_there_are_walkable_sidew.factor)
-summary(cherish$b_there_are_facilities_to.factor)
-summary(cherish$c_my_neighborhood_has_free.factor)
-summary(cherish$d_there_are_many_shops_sto.factor)
-summary(cherish$e_a_large_selection_of_fre.factor)
-
-summary(cherish$a_people_around_here_are_w.factor)
-summary(cherish$b_people_in_my_neighborhoo.factor)
-summary(cherish$c_people_in_my_neighborhoo.factor)
-summary(cherish$d_people_in_my_neighborhoo.factor)
-summary(cherish$e_i_feel_safe_walking_in_m.factor)
-summary(cherish$f_violence_is_a_problem_in.factor)
+cherish %>% 
+  select(q29.factor,
+         q1,
+         a_there_are_walkable_sidew.factor, b_there_are_facilities_to.factor, c_my_neighborhood_has_free.factor, d_there_are_many_shops_sto.factor, e_a_large_selection_of_fre.factor,
+         a_people_around_here_are_w.factor, b_people_in_my_neighborhoo.factor, c_people_in_my_neighborhoo.factor, d_people_in_my_neighborhoo.factor, e_i_feel_safe_walking_in_m.factor, f_violence_is_a_problem_in.factor) %>% 
+  tbl_summary(by = q29.factor,
+              digits = ~ c(1)) %>% 
+  bold_labels() %>% 
+  as_flex_table() %>%
+  flextable::save_as_docx(path = "mutate/output/merged/sex/neighborhood.docx")
 
 # Food and health
-summary(cherish$q4.factor)
-summary(cherish$q5.factor)
-
-summary(cherish$q6.factor)
-summary(cherish$a.factor)
-
-summary(cherish$q7.factor)
-summary(cherish$q7a.factor)
-
-summary(cherish$q8.factor)
-summary(cherish$q8a.factor)
-
-summary(cherish$q9.factor)
-summary(cherish$q9a.factor)
-
-summary(cherish$q10.factor)
-summary(cherish$q11.factor)
-
-summary(cherish$q12.factor)
-summary(cherish$q13.factor)
-
-summary(cherish$q14.factor)
-summary(cherish$q15.factor)
-
-summary(cherish$q16.factor)
-summary(cherish$q17.factor)
-summary(cherish$q17a___1.factor)
-summary(cherish$q17a___2.factor)
-summary(cherish$q17a___3.factor)
-summary(cherish$q17a___4.factor)
-summary(cherish$q17a___5.factor)
-
-summary(cherish$a_asking_questions_to_your.factor)
-summary(cherish$b_traveling_to_medical_app.factor)
-summary(cherish$c_understanding_medical_tr.factor)
-
-summary(cherish$q19___1.factor)
-summary(cherish$q19___2.factor)
-summary(cherish$q19___3.factor)
-summary(cherish$q19___4.factor)
-summary(cherish$q19___5.factor)
-
-summary(cherish$q20.factor)
-summary(cherish$q21___1.factor)
-summary(cherish$q21___2.factor)
-summary(cherish$q21___3.factor)
-summary(cherish$q21___4.factor)
-summary(cherish$q21___5.factor)
-summary(cherish$q21___6.factor)
-summary(cherish$q21___7.factor)
-summary(cherish$q21___8.factor)
-summary(cherish$q21___9.factor)
-
-summary(cherish$q22___1.factor)
-summary(cherish$q22___2.factor)
-summary(cherish$q22___3.factor)
-summary(cherish$q22___4.factor)
-summary(cherish$q22___5.factor)
-summary(cherish$q22___6.factor)
+cherish %>% 
+  select(q29.factor,
+         q4.factor, q5.factor, q6.factor, a.factor, q7.factor, q7a.factor, q8.factor, q8a.factor, q9.factor, q9a.factor, q10.factor, q11.factor, q12.factor, q13.factor, q14.factor, q15.factor,
+         q16.factor, q17.factor, q17a___1.factor, q17a___2.factor, q17a___3.factor, q17a___4.factor, q17a___5.factor,
+         a_asking_questions_to_your.factor, b_traveling_to_medical_app.factor, c_understanding_medical_tr.factor,
+         q19___1.factor, q19___2.factor, q19___3.factor, q19___4.factor, q19___5.factor,
+         q20.factor, q21___1.factor, q21___2.factor, q21___3.factor, q21___4.factor, q21___5.factor, q21___6.factor, q21___7.factor, q21___8.factor, q21___9.factor,
+         q22___1.factor, q22___2.factor, q22___3.factor, q22___4.factor, q22___5.factor, q22___6.factor) %>% 
+  tbl_summary(by = q29.factor,
+              digits = ~ c(1)) %>% 
+  bold_labels() %>% 
+  as_flex_table() %>%
+  flextable::save_as_docx(path = "mutate/output/merged/sex/food and health.docx")
 
 # Trust and mistrust in health care 
-summary(cherish$a_sometimes_doctors_care_m.factor)
-summary(cherish$b_doctor_are_extremely_tho.factor)
-summary(cherish$c_you_completely_trust_doc.factor)
-summary(cherish$d_a_doctor_would_never_mis.factor)
-summary(cherish$e_all_in_all_you_have_comp.factor)
-
-summary(cherish$a_religious_spiritual_beli.factor)
-summary(cherish$b_i_tend_to_avoid_things_h.factor)
-
-summary(cherish$a_medical_researchers_have.factor)
-summary(cherish$b_it_is_safe_to_be_in_a_me.factor)
-summary(cherish$c_there_are_some_things_ab.factor)
-summary(cherish$d_medical_researchers_do_n.factor)
-
-table(cherish$increase_physical_activity, useNA = "always")
-table(cherish$reduce_sugar_intake, useNA = "always")
-table(cherish$reduce_salt_intake, useNA = "always")
-table(cherish$eat_more_fruits_and_vegata, useNA = "always")
-table(cherish$reduce_processed_foods, useNA = "always")
-table(cherish$lose_weight, useNA = "always")
-table(cherish$quit_smoking, useNA = "always")
+cherish %>% 
+  select(q29.factor,
+         a_sometimes_doctors_care_m.factor, b_doctor_are_extremely_tho.factor, c_you_completely_trust_doc.factor, d_a_doctor_would_never_mis.factor, e_all_in_all_you_have_comp.factor,
+         a_religious_spiritual_beli.factor, b_i_tend_to_avoid_things_h.factor,
+         a_medical_researchers_have.factor, b_it_is_safe_to_be_in_a_me.factor, c_there_are_some_things_ab.factor, d_medical_researchers_do_n.factor,
+         increase_physical_activity, reduce_sugar_intake, reduce_salt_intake, eat_more_fruits_and_vegata, reduce_processed_foods, lose_weight, quit_smoking) %>% 
+  tbl_summary(by = q29.factor,
+              digits = ~ c(1)) %>% 
+  bold_labels() %>% 
+  as_flex_table() %>%
+  flextable::save_as_docx(path = "mutate/output/merged/sex/trust and mistrust in health care.docx")
 
 # CHERISH program
-summary(cherish$a_i_think_being_connected.factor)
-summary(cherish$b_i_think_receiving_health.factor)
-summary(cherish$c_i_think_participating_in.factor)
-summary(cherish$d_i_think_participating_in.factor)
-summary(cherish$e_i_think_measuring_my_blo.factor)
+cherish %>% 
+  select(q29.factor,
+         a_i_think_being_connected.factor, b_i_think_receiving_health.factor, c_i_think_participating_in.factor, d_i_think_participating_in.factor, e_i_think_measuring_my_blo.factor) %>% 
+  tbl_summary(by = q29.factor,
+              digits = ~ c(1)) %>% 
+  bold_labels() %>% 
+  as_flex_table() %>%
+  flextable::save_as_docx(path = "mutate/output/merged/sex/CHERISH program.docx")
 
 # Demographics
-summary(cherish$q28)
-summary(cherish$q29.factor)
-summary(cherish$q30.factor)
-summary(cherish$q31.factor)
-summary(cherish$q32.factor)
-summary(cherish$q33.factor)
-summary(cherish$q34.factor)
+cherish %>% 
+  select(q28, q29.factor, q30.factor, q31.factor, q32.factor, q33.factor, q34.factor) %>% 
+  tbl_summary(by = q29.factor,
+              digits = ~ c(1)) %>% 
+  bold_labels() %>% 
+  as_flex_table() %>%
+  flextable::save_as_docx(path = "mutate/output/merged/sex/demographics.docx")
 
-# MALE
-# Neighborhood
-rm(cherish)
-
-cherish <- cherish_main %>% 
-  filter(q29.factor == "Male")
-
-summary(cherish$q1)
-
-summary(cherish$a_there_are_walkable_sidew.factor)
-summary(cherish$b_there_are_facilities_to.factor)
-summary(cherish$c_my_neighborhood_has_free.factor)
-summary(cherish$d_there_are_many_shops_sto.factor)
-summary(cherish$e_a_large_selection_of_fre.factor)
-
-summary(cherish$a_people_around_here_are_w.factor)
-summary(cherish$b_people_in_my_neighborhoo.factor)
-summary(cherish$c_people_in_my_neighborhoo.factor)
-summary(cherish$d_people_in_my_neighborhoo.factor)
-summary(cherish$e_i_feel_safe_walking_in_m.factor)
-summary(cherish$f_violence_is_a_problem_in.factor)
-
-# Food and health
-summary(cherish$q4.factor)
-summary(cherish$q5.factor)
-
-summary(cherish$q6.factor)
-summary(cherish$a.factor)
-
-summary(cherish$q7.factor)
-summary(cherish$q7a.factor)
-
-summary(cherish$q8.factor)
-summary(cherish$q8a.factor)
-
-summary(cherish$q9.factor)
-summary(cherish$q9a.factor)
-
-summary(cherish$q10.factor)
-summary(cherish$q11.factor)
-
-summary(cherish$q12.factor)
-summary(cherish$q13.factor)
-
-summary(cherish$q14.factor)
-summary(cherish$q15.factor)
-
-summary(cherish$q16.factor)
-summary(cherish$q17.factor)
-summary(cherish$q17a___1.factor)
-summary(cherish$q17a___2.factor)
-summary(cherish$q17a___3.factor)
-summary(cherish$q17a___4.factor)
-summary(cherish$q17a___5.factor)
-
-summary(cherish$a_asking_questions_to_your.factor)
-summary(cherish$b_traveling_to_medical_app.factor)
-summary(cherish$c_understanding_medical_tr.factor)
-
-summary(cherish$q19___1.factor)
-summary(cherish$q19___2.factor)
-summary(cherish$q19___3.factor)
-summary(cherish$q19___4.factor)
-summary(cherish$q19___5.factor)
-
-summary(cherish$q20.factor)
-summary(cherish$q21___1.factor)
-summary(cherish$q21___2.factor)
-summary(cherish$q21___3.factor)
-summary(cherish$q21___4.factor)
-summary(cherish$q21___5.factor)
-summary(cherish$q21___6.factor)
-summary(cherish$q21___7.factor)
-summary(cherish$q21___8.factor)
-summary(cherish$q21___9.factor)
-
-summary(cherish$q22___1.factor)
-summary(cherish$q22___2.factor)
-summary(cherish$q22___3.factor)
-summary(cherish$q22___4.factor)
-summary(cherish$q22___5.factor)
-summary(cherish$q22___6.factor)
-
-# Trust and mistrust in health care 
-summary(cherish$a_sometimes_doctors_care_m.factor)
-summary(cherish$b_doctor_are_extremely_tho.factor)
-summary(cherish$c_you_completely_trust_doc.factor)
-summary(cherish$d_a_doctor_would_never_mis.factor)
-summary(cherish$e_all_in_all_you_have_comp.factor)
-
-summary(cherish$a_religious_spiritual_beli.factor)
-summary(cherish$b_i_tend_to_avoid_things_h.factor)
-
-summary(cherish$a_medical_researchers_have.factor)
-summary(cherish$b_it_is_safe_to_be_in_a_me.factor)
-summary(cherish$c_there_are_some_things_ab.factor)
-summary(cherish$d_medical_researchers_do_n.factor)
-
-table(cherish$increase_physical_activity, useNA = "always")
-table(cherish$reduce_sugar_intake, useNA = "always")
-table(cherish$reduce_salt_intake, useNA = "always")
-table(cherish$eat_more_fruits_and_vegata, useNA = "always")
-table(cherish$reduce_processed_foods, useNA = "always")
-table(cherish$lose_weight, useNA = "always")
-table(cherish$quit_smoking, useNA = "always")
-
-# CHERISH program
-summary(cherish$a_i_think_being_connected.factor)
-summary(cherish$b_i_think_receiving_health.factor)
-summary(cherish$c_i_think_participating_in.factor)
-summary(cherish$d_i_think_participating_in.factor)
-summary(cherish$e_i_think_measuring_my_blo.factor)
-
-# Demographics
-summary(cherish$q28)
-summary(cherish$q29.factor)
-summary(cherish$q30.factor)
-summary(cherish$q31.factor)
-summary(cherish$q32.factor)
-summary(cherish$q33.factor)
-summary(cherish$q34.factor)
 
 
 # BY AGE
 # <= 65
 # Neighborhood
-rm(cherish)
+cherish <- cherish %>% 
+  mutate(less_65 = ifelse(q28 <= 65, 1, 0))
 
-cherish <- cherish_main %>% 
-  filter(q28 <= 65)
-
-summary(cherish$q1)
-
-summary(cherish$a_there_are_walkable_sidew.factor)
-summary(cherish$b_there_are_facilities_to.factor)
-summary(cherish$c_my_neighborhood_has_free.factor)
-summary(cherish$d_there_are_many_shops_sto.factor)
-summary(cherish$e_a_large_selection_of_fre.factor)
-
-summary(cherish$a_people_around_here_are_w.factor)
-summary(cherish$b_people_in_my_neighborhoo.factor)
-summary(cherish$c_people_in_my_neighborhoo.factor)
-summary(cherish$d_people_in_my_neighborhoo.factor)
-summary(cherish$e_i_feel_safe_walking_in_m.factor)
-summary(cherish$f_violence_is_a_problem_in.factor)
+cherish %>% 
+  select(less_65,
+         q1,
+         a_there_are_walkable_sidew.factor, b_there_are_facilities_to.factor, c_my_neighborhood_has_free.factor, d_there_are_many_shops_sto.factor, e_a_large_selection_of_fre.factor,
+         a_people_around_here_are_w.factor, b_people_in_my_neighborhoo.factor, c_people_in_my_neighborhoo.factor, d_people_in_my_neighborhoo.factor, e_i_feel_safe_walking_in_m.factor, f_violence_is_a_problem_in.factor) %>% 
+  tbl_summary(by = less_65,
+              digits = ~ c(1)) %>% 
+  bold_labels() %>% 
+  as_flex_table() %>%
+  flextable::save_as_docx(path = "mutate/output/merged/age/neighborhood.docx")
 
 # Food and health
-summary(cherish$q4.factor)
-summary(cherish$q5.factor)
-
-summary(cherish$q6.factor)
-summary(cherish$a.factor)
-
-summary(cherish$q7.factor)
-summary(cherish$q7a.factor)
-
-summary(cherish$q8.factor)
-summary(cherish$q8a.factor)
-
-summary(cherish$q9.factor)
-summary(cherish$q9a.factor)
-
-summary(cherish$q10.factor)
-summary(cherish$q11.factor)
-
-summary(cherish$q12.factor)
-summary(cherish$q13.factor)
-
-summary(cherish$q14.factor)
-summary(cherish$q15.factor)
-
-summary(cherish$q16.factor)
-summary(cherish$q17.factor)
-summary(cherish$q17a___1.factor)
-summary(cherish$q17a___2.factor)
-summary(cherish$q17a___3.factor)
-summary(cherish$q17a___4.factor)
-summary(cherish$q17a___5.factor)
-
-summary(cherish$a_asking_questions_to_your.factor)
-summary(cherish$b_traveling_to_medical_app.factor)
-summary(cherish$c_understanding_medical_tr.factor)
-
-summary(cherish$q19___1.factor)
-summary(cherish$q19___2.factor)
-summary(cherish$q19___3.factor)
-summary(cherish$q19___4.factor)
-summary(cherish$q19___5.factor)
-
-summary(cherish$q20.factor)
-summary(cherish$q21___1.factor)
-summary(cherish$q21___2.factor)
-summary(cherish$q21___3.factor)
-summary(cherish$q21___4.factor)
-summary(cherish$q21___5.factor)
-summary(cherish$q21___6.factor)
-summary(cherish$q21___7.factor)
-summary(cherish$q21___8.factor)
-summary(cherish$q21___9.factor)
-
-summary(cherish$q22___1.factor)
-summary(cherish$q22___2.factor)
-summary(cherish$q22___3.factor)
-summary(cherish$q22___4.factor)
-summary(cherish$q22___5.factor)
-summary(cherish$q22___6.factor)
+cherish %>% 
+  select(less_65,
+         q4.factor, q5.factor, q6.factor, a.factor, q7.factor, q7a.factor, q8.factor, q8a.factor, q9.factor, q9a.factor, q10.factor, q11.factor, q12.factor, q13.factor, q14.factor, q15.factor,
+         q16.factor, q17.factor, q17a___1.factor, q17a___2.factor, q17a___3.factor, q17a___4.factor, q17a___5.factor,
+         a_asking_questions_to_your.factor, b_traveling_to_medical_app.factor, c_understanding_medical_tr.factor,
+         q19___1.factor, q19___2.factor, q19___3.factor, q19___4.factor, q19___5.factor,
+         q20.factor, q21___1.factor, q21___2.factor, q21___3.factor, q21___4.factor, q21___5.factor, q21___6.factor, q21___7.factor, q21___8.factor, q21___9.factor,
+         q22___1.factor, q22___2.factor, q22___3.factor, q22___4.factor, q22___5.factor, q22___6.factor) %>% 
+  tbl_summary(by = less_65,
+              digits = ~ c(1)) %>% 
+  bold_labels() %>% 
+  as_flex_table() %>%
+  flextable::save_as_docx(path = "mutate/output/merged/age/food and health.docx")
 
 # Trust and mistrust in health care 
-summary(cherish$a_sometimes_doctors_care_m.factor)
-summary(cherish$b_doctor_are_extremely_tho.factor)
-summary(cherish$c_you_completely_trust_doc.factor)
-summary(cherish$d_a_doctor_would_never_mis.factor)
-summary(cherish$e_all_in_all_you_have_comp.factor)
-
-summary(cherish$a_religious_spiritual_beli.factor)
-summary(cherish$b_i_tend_to_avoid_things_h.factor)
-
-summary(cherish$a_medical_researchers_have.factor)
-summary(cherish$b_it_is_safe_to_be_in_a_me.factor)
-summary(cherish$c_there_are_some_things_ab.factor)
-summary(cherish$d_medical_researchers_do_n.factor)
-
-table(cherish$increase_physical_activity, useNA = "always")
-table(cherish$reduce_sugar_intake, useNA = "always")
-table(cherish$reduce_salt_intake, useNA = "always")
-table(cherish$eat_more_fruits_and_vegata, useNA = "always")
-table(cherish$reduce_processed_foods, useNA = "always")
-table(cherish$lose_weight, useNA = "always")
-table(cherish$quit_smoking, useNA = "always")
+cherish %>% 
+  select(less_65,
+         a_sometimes_doctors_care_m.factor, b_doctor_are_extremely_tho.factor, c_you_completely_trust_doc.factor, d_a_doctor_would_never_mis.factor, e_all_in_all_you_have_comp.factor,
+         a_religious_spiritual_beli.factor, b_i_tend_to_avoid_things_h.factor,
+         a_medical_researchers_have.factor, b_it_is_safe_to_be_in_a_me.factor, c_there_are_some_things_ab.factor, d_medical_researchers_do_n.factor,
+         increase_physical_activity, reduce_sugar_intake, reduce_salt_intake, eat_more_fruits_and_vegata, reduce_processed_foods, lose_weight, quit_smoking) %>% 
+  tbl_summary(by = less_65,
+              digits = ~ c(1)) %>% 
+  bold_labels() %>% 
+  as_flex_table() %>%
+  flextable::save_as_docx(path = "mutate/output/merged/age/trust and mistrust in health care.docx")
 
 # CHERISH program
-summary(cherish$a_i_think_being_connected.factor)
-summary(cherish$b_i_think_receiving_health.factor)
-summary(cherish$c_i_think_participating_in.factor)
-summary(cherish$d_i_think_participating_in.factor)
-summary(cherish$e_i_think_measuring_my_blo.factor)
+cherish %>% 
+  select(less_65,
+         a_i_think_being_connected.factor, b_i_think_receiving_health.factor, c_i_think_participating_in.factor, d_i_think_participating_in.factor, e_i_think_measuring_my_blo.factor) %>% 
+  tbl_summary(by = less_65,
+              digits = ~ c(1)) %>% 
+  bold_labels() %>% 
+  as_flex_table() %>%
+  flextable::save_as_docx(path = "mutate/output/merged/age/CHERISH program.docx")
 
 # Demographics
-summary(cherish$q28)
-summary(cherish$q29.factor)
-summary(cherish$q30.factor)
-summary(cherish$q31.factor)
-summary(cherish$q32.factor)
-summary(cherish$q33.factor)
-summary(cherish$q34.factor)
-
-# > 65
-# Neighborhood
-rm(cherish)
-
-cherish <- cherish_main %>% 
-  filter(q28 > 65)
-
-summary(cherish$q1)
-
-summary(cherish$a_there_are_walkable_sidew.factor)
-summary(cherish$b_there_are_facilities_to.factor)
-summary(cherish$c_my_neighborhood_has_free.factor)
-summary(cherish$d_there_are_many_shops_sto.factor)
-summary(cherish$e_a_large_selection_of_fre.factor)
-
-summary(cherish$a_people_around_here_are_w.factor)
-summary(cherish$b_people_in_my_neighborhoo.factor)
-summary(cherish$c_people_in_my_neighborhoo.factor)
-summary(cherish$d_people_in_my_neighborhoo.factor)
-summary(cherish$e_i_feel_safe_walking_in_m.factor)
-summary(cherish$f_violence_is_a_problem_in.factor)
-
-# Food and health
-summary(cherish$q4.factor)
-summary(cherish$q5.factor)
-
-summary(cherish$q6.factor)
-summary(cherish$a.factor)
-
-summary(cherish$q7.factor)
-summary(cherish$q7a.factor)
-
-summary(cherish$q8.factor)
-summary(cherish$q8a.factor)
-
-summary(cherish$q9.factor)
-summary(cherish$q9a.factor)
-
-summary(cherish$q10.factor)
-summary(cherish$q11.factor)
-
-summary(cherish$q12.factor)
-summary(cherish$q13.factor)
-
-summary(cherish$q14.factor)
-summary(cherish$q15.factor)
-
-summary(cherish$q16.factor)
-summary(cherish$q17.factor)
-summary(cherish$q17a___1.factor)
-summary(cherish$q17a___2.factor)
-summary(cherish$q17a___3.factor)
-summary(cherish$q17a___4.factor)
-summary(cherish$q17a___5.factor)
-
-summary(cherish$a_asking_questions_to_your.factor)
-summary(cherish$b_traveling_to_medical_app.factor)
-summary(cherish$c_understanding_medical_tr.factor)
-
-summary(cherish$q19___1.factor)
-summary(cherish$q19___2.factor)
-summary(cherish$q19___3.factor)
-summary(cherish$q19___4.factor)
-summary(cherish$q19___5.factor)
-
-summary(cherish$q20.factor)
-summary(cherish$q21___1.factor)
-summary(cherish$q21___2.factor)
-summary(cherish$q21___3.factor)
-summary(cherish$q21___4.factor)
-summary(cherish$q21___5.factor)
-summary(cherish$q21___6.factor)
-summary(cherish$q21___7.factor)
-summary(cherish$q21___8.factor)
-summary(cherish$q21___9.factor)
-
-summary(cherish$q22___1.factor)
-summary(cherish$q22___2.factor)
-summary(cherish$q22___3.factor)
-summary(cherish$q22___4.factor)
-summary(cherish$q22___5.factor)
-summary(cherish$q22___6.factor)
-
-# Trust and mistrust in health care
-summary(cherish$a_sometimes_doctors_care_m.factor)
-summary(cherish$b_doctor_are_extremely_tho.factor)
-summary(cherish$c_you_completely_trust_doc.factor)
-summary(cherish$d_a_doctor_would_never_mis.factor)
-summary(cherish$e_all_in_all_you_have_comp.factor)
-
-summary(cherish$a_religious_spiritual_beli.factor)
-summary(cherish$b_i_tend_to_avoid_things_h.factor)
-
-summary(cherish$a_medical_researchers_have.factor)
-summary(cherish$b_it_is_safe_to_be_in_a_me.factor)
-summary(cherish$c_there_are_some_things_ab.factor)
-summary(cherish$d_medical_researchers_do_n.factor)
-
-table(cherish$increase_physical_activity, useNA = "always")
-table(cherish$reduce_sugar_intake, useNA = "always")
-table(cherish$reduce_salt_intake, useNA = "always")
-table(cherish$eat_more_fruits_and_vegata, useNA = "always")
-table(cherish$reduce_processed_foods, useNA = "always")
-table(cherish$lose_weight, useNA = "always")
-table(cherish$quit_smoking, useNA = "always")
-
-# CHERISH program
-summary(cherish$a_i_think_being_connected.factor)
-summary(cherish$b_i_think_receiving_health.factor)
-summary(cherish$c_i_think_participating_in.factor)
-summary(cherish$d_i_think_participating_in.factor)
-summary(cherish$e_i_think_measuring_my_blo.factor)
-
-# Demographics
-summary(cherish$q28)
-summary(cherish$q29.factor)
-summary(cherish$q30.factor)
-summary(cherish$q31.factor)
-summary(cherish$q32.factor)
-summary(cherish$q33.factor)
-summary(cherish$q34.factor)
+cherish %>% 
+  select(less_65,
+         q28, q29.factor, q30.factor, q31.factor, q32.factor, q33.factor, q34.factor) %>% 
+  tbl_summary(by = less_65,
+              digits = ~ c(1)) %>% 
+  bold_labels() %>% 
+  as_flex_table() %>%
+  flextable::save_as_docx(path = "mutate/output/merged/age/demographics.docx")
 
 
 
 # BY HYPERTENSION STATUS
-# YES HTN
 # Neighborhood
-rm(cherish)
-
-cherish <- cherish_main %>% 
-  filter(q10.factor == "Yes")
-
-summary(cherish$q1)
-
-summary(cherish$a_there_are_walkable_sidew.factor)
-summary(cherish$b_there_are_facilities_to.factor)
-summary(cherish$c_my_neighborhood_has_free.factor)
-summary(cherish$d_there_are_many_shops_sto.factor)
-summary(cherish$e_a_large_selection_of_fre.factor)
-
-summary(cherish$a_people_around_here_are_w.factor)
-summary(cherish$b_people_in_my_neighborhoo.factor)
-summary(cherish$c_people_in_my_neighborhoo.factor)
-summary(cherish$d_people_in_my_neighborhoo.factor)
-summary(cherish$e_i_feel_safe_walking_in_m.factor)
-summary(cherish$f_violence_is_a_problem_in.factor)
+cherish %>% 
+  select(q10.factor,
+         q1,
+         a_there_are_walkable_sidew.factor, b_there_are_facilities_to.factor, c_my_neighborhood_has_free.factor, d_there_are_many_shops_sto.factor, e_a_large_selection_of_fre.factor,
+         a_people_around_here_are_w.factor, b_people_in_my_neighborhoo.factor, c_people_in_my_neighborhoo.factor, d_people_in_my_neighborhoo.factor, e_i_feel_safe_walking_in_m.factor, f_violence_is_a_problem_in.factor) %>% 
+  tbl_summary(by = q10.factor,
+              digits = ~ c(1)) %>% 
+  bold_labels() %>% 
+  as_flex_table() %>%
+  flextable::save_as_docx(path = "mutate/output/merged/htn/neighborhood.docx")
 
 # Food and health
-summary(cherish$q4.factor)
-summary(cherish$q5.factor)
-
-summary(cherish$q6.factor)
-summary(cherish$a.factor)
-
-summary(cherish$q7.factor)
-summary(cherish$q7a.factor)
-
-summary(cherish$q8.factor)
-summary(cherish$q8a.factor)
-
-summary(cherish$q9.factor)
-summary(cherish$q9a.factor)
-
-summary(cherish$q10.factor)
-summary(cherish$q11.factor)
-
-summary(cherish$q12.factor)
-summary(cherish$q13.factor)
-
-summary(cherish$q14.factor)
-summary(cherish$q15.factor)
-
-summary(cherish$q16.factor)
-summary(cherish$q17.factor)
-summary(cherish$q17a___1.factor)
-summary(cherish$q17a___2.factor)
-summary(cherish$q17a___3.factor)
-summary(cherish$q17a___4.factor)
-summary(cherish$q17a___5.factor)
-
-summary(cherish$a_asking_questions_to_your.factor)
-summary(cherish$b_traveling_to_medical_app.factor)
-summary(cherish$c_understanding_medical_tr.factor)
-
-summary(cherish$q19___1.factor)
-summary(cherish$q19___2.factor)
-summary(cherish$q19___3.factor)
-summary(cherish$q19___4.factor)
-summary(cherish$q19___5.factor)
-
-summary(cherish$q20.factor)
-summary(cherish$q21___1.factor)
-summary(cherish$q21___2.factor)
-summary(cherish$q21___3.factor)
-summary(cherish$q21___4.factor)
-summary(cherish$q21___5.factor)
-summary(cherish$q21___6.factor)
-summary(cherish$q21___7.factor)
-summary(cherish$q21___8.factor)
-summary(cherish$q21___9.factor)
-
-summary(cherish$q22___1.factor)
-summary(cherish$q22___2.factor)
-summary(cherish$q22___3.factor)
-summary(cherish$q22___4.factor)
-summary(cherish$q22___5.factor)
-summary(cherish$q22___6.factor)
+cherish %>% 
+  select(q10.factor,
+         q4.factor, q5.factor, q6.factor, a.factor, q7.factor, q7a.factor, q8.factor, q8a.factor, q9.factor, q9a.factor, q10.factor, q11.factor, q12.factor, q13.factor, q14.factor, q15.factor,
+         q16.factor, q17.factor, q17a___1.factor, q17a___2.factor, q17a___3.factor, q17a___4.factor, q17a___5.factor,
+         a_asking_questions_to_your.factor, b_traveling_to_medical_app.factor, c_understanding_medical_tr.factor,
+         q19___1.factor, q19___2.factor, q19___3.factor, q19___4.factor, q19___5.factor,
+         q20.factor, q21___1.factor, q21___2.factor, q21___3.factor, q21___4.factor, q21___5.factor, q21___6.factor, q21___7.factor, q21___8.factor, q21___9.factor,
+         q22___1.factor, q22___2.factor, q22___3.factor, q22___4.factor, q22___5.factor, q22___6.factor) %>% 
+  tbl_summary(by = q10.factor,
+              digits = ~ c(1)) %>% 
+  bold_labels() %>% 
+  as_flex_table() %>%
+  flextable::save_as_docx(path = "mutate/output/merged/htn/food and health.docx")
 
 # Trust and mistrust in health care 
-summary(cherish$a_sometimes_doctors_care_m.factor)
-summary(cherish$b_doctor_are_extremely_tho.factor)
-summary(cherish$c_you_completely_trust_doc.factor)
-summary(cherish$d_a_doctor_would_never_mis.factor)
-summary(cherish$e_all_in_all_you_have_comp.factor)
-
-summary(cherish$a_religious_spiritual_beli.factor)
-summary(cherish$b_i_tend_to_avoid_things_h.factor)
-
-summary(cherish$a_medical_researchers_have.factor)
-summary(cherish$b_it_is_safe_to_be_in_a_me.factor)
-summary(cherish$c_there_are_some_things_ab.factor)
-summary(cherish$d_medical_researchers_do_n.factor)
-
-table(cherish$increase_physical_activity, useNA = "always")
-table(cherish$reduce_sugar_intake, useNA = "always")
-table(cherish$reduce_salt_intake, useNA = "always")
-table(cherish$eat_more_fruits_and_vegata, useNA = "always")
-table(cherish$reduce_processed_foods, useNA = "always")
-table(cherish$lose_weight, useNA = "always")
-table(cherish$quit_smoking, useNA = "always")
+cherish %>% 
+  select(q10.factor,
+         a_sometimes_doctors_care_m.factor, b_doctor_are_extremely_tho.factor, c_you_completely_trust_doc.factor, d_a_doctor_would_never_mis.factor, e_all_in_all_you_have_comp.factor,
+         a_religious_spiritual_beli.factor, b_i_tend_to_avoid_things_h.factor,
+         a_medical_researchers_have.factor, b_it_is_safe_to_be_in_a_me.factor, c_there_are_some_things_ab.factor, d_medical_researchers_do_n.factor,
+         increase_physical_activity, reduce_sugar_intake, reduce_salt_intake, eat_more_fruits_and_vegata, reduce_processed_foods, lose_weight, quit_smoking) %>% 
+  tbl_summary(by = q10.factor,
+              digits = ~ c(1)) %>% 
+  bold_labels() %>% 
+  as_flex_table() %>%
+  flextable::save_as_docx(path = "mutate/output/merged/htn/trust and mistrust in health care.docx")
 
 # CHERISH program
-summary(cherish$a_i_think_being_connected.factor)
-summary(cherish$b_i_think_receiving_health.factor)
-summary(cherish$c_i_think_participating_in.factor)
-summary(cherish$d_i_think_participating_in.factor)
-summary(cherish$e_i_think_measuring_my_blo.factor)
+cherish %>% 
+  select(q10.factor,
+         a_i_think_being_connected.factor, b_i_think_receiving_health.factor, c_i_think_participating_in.factor, d_i_think_participating_in.factor, e_i_think_measuring_my_blo.factor) %>% 
+  tbl_summary(by = q10.factor,
+              digits = ~ c(1)) %>% 
+  bold_labels() %>% 
+  as_flex_table() %>%
+  flextable::save_as_docx(path = "mutate/output/merged/htn/CHERISH program.docx")
 
 # Demographics
-summary(cherish$q28)
-summary(cherish$q29.factor)
-summary(cherish$q30.factor)
-summary(cherish$q31.factor)
-summary(cherish$q32.factor)
-summary(cherish$q33.factor)
-summary(cherish$q34.factor)
-
-# NO HTN
-# Neighborhood
-rm(cherish)
-
-cherish <- cherish_main %>% 
-  filter(q10.factor == "No")
-
-summary(cherish$q1)
-
-summary(cherish$a_there_are_walkable_sidew.factor)
-summary(cherish$b_there_are_facilities_to.factor)
-summary(cherish$c_my_neighborhood_has_free.factor)
-summary(cherish$d_there_are_many_shops_sto.factor)
-summary(cherish$e_a_large_selection_of_fre.factor)
-
-summary(cherish$a_people_around_here_are_w.factor)
-summary(cherish$b_people_in_my_neighborhoo.factor)
-summary(cherish$c_people_in_my_neighborhoo.factor)
-summary(cherish$d_people_in_my_neighborhoo.factor)
-summary(cherish$e_i_feel_safe_walking_in_m.factor)
-summary(cherish$f_violence_is_a_problem_in.factor)
-
-# Food and health
-summary(cherish$q4.factor)
-summary(cherish$q5.factor)
-
-summary(cherish$q6.factor)
-summary(cherish$a.factor)
-
-summary(cherish$q7.factor)
-summary(cherish$q7a.factor)
-
-summary(cherish$q8.factor)
-summary(cherish$q8a.factor)
-
-summary(cherish$q9.factor)
-summary(cherish$q9a.factor)
-
-summary(cherish$q10.factor)
-summary(cherish$q11.factor)
-
-summary(cherish$q12.factor)
-summary(cherish$q13.factor)
-
-summary(cherish$q14.factor)
-summary(cherish$q15.factor)
-
-summary(cherish$q16.factor)
-summary(cherish$q17.factor)
-summary(cherish$q17a___1.factor)
-summary(cherish$q17a___2.factor)
-summary(cherish$q17a___3.factor)
-summary(cherish$q17a___4.factor)
-summary(cherish$q17a___5.factor)
-
-summary(cherish$a_asking_questions_to_your.factor)
-summary(cherish$b_traveling_to_medical_app.factor)
-summary(cherish$c_understanding_medical_tr.factor)
-
-summary(cherish$q19___1.factor)
-summary(cherish$q19___2.factor)
-summary(cherish$q19___3.factor)
-summary(cherish$q19___4.factor)
-summary(cherish$q19___5.factor)
-
-summary(cherish$q20.factor)
-summary(cherish$q21___1.factor)
-summary(cherish$q21___2.factor)
-summary(cherish$q21___3.factor)
-summary(cherish$q21___4.factor)
-summary(cherish$q21___5.factor)
-summary(cherish$q21___6.factor)
-summary(cherish$q21___7.factor)
-summary(cherish$q21___8.factor)
-summary(cherish$q21___9.factor)
-
-summary(cherish$q22___1.factor)
-summary(cherish$q22___2.factor)
-summary(cherish$q22___3.factor)
-summary(cherish$q22___4.factor)
-summary(cherish$q22___5.factor)
-summary(cherish$q22___6.factor)
-
-# Trust and mistrust in health care
-summary(cherish$a_sometimes_doctors_care_m.factor)
-summary(cherish$b_doctor_are_extremely_tho.factor)
-summary(cherish$c_you_completely_trust_doc.factor)
-summary(cherish$d_a_doctor_would_never_mis.factor)
-summary(cherish$e_all_in_all_you_have_comp.factor)
-
-summary(cherish$a_religious_spiritual_beli.factor)
-summary(cherish$b_i_tend_to_avoid_things_h.factor)
-
-summary(cherish$a_medical_researchers_have.factor)
-summary(cherish$b_it_is_safe_to_be_in_a_me.factor)
-summary(cherish$c_there_are_some_things_ab.factor)
-summary(cherish$d_medical_researchers_do_n.factor)
-
-table(cherish$increase_physical_activity, useNA = "always")
-table(cherish$reduce_sugar_intake, useNA = "always")
-table(cherish$reduce_salt_intake, useNA = "always")
-table(cherish$eat_more_fruits_and_vegata, useNA = "always")
-table(cherish$reduce_processed_foods, useNA = "always")
-table(cherish$lose_weight, useNA = "always")
-table(cherish$quit_smoking, useNA = "always")
-
-# CHERISH program
-summary(cherish$a_i_think_being_connected.factor)
-summary(cherish$b_i_think_receiving_health.factor)
-summary(cherish$c_i_think_participating_in.factor)
-summary(cherish$d_i_think_participating_in.factor)
-summary(cherish$e_i_think_measuring_my_blo.factor)
-
-# Demographics
-summary(cherish$q28)
-summary(cherish$q29.factor)
-summary(cherish$q30.factor)
-summary(cherish$q31.factor)
-summary(cherish$q32.factor)
-summary(cherish$q33.factor)
-summary(cherish$q34.factor)
+cherish %>% 
+  select(q10.factor,
+         q28, q29.factor, q30.factor, q31.factor, q32.factor, q33.factor, q34.factor) %>% 
+  tbl_summary(by = q10.factor,
+              digits = ~ c(1)) %>% 
+  bold_labels() %>% 
+  as_flex_table() %>%
+  flextable::save_as_docx(path = "mutate/output/merged/htn/demographics.docx")
