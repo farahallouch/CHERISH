@@ -208,7 +208,7 @@ var_label(cherish) <- list(q1 = "How long have you lived in your current neighbo
                            q34.factor = "We would like to know about what you do-are you working now, looking for work, retired, keeping house, a student, or what?")
 
 save(cherish, file = "C:/Users/fallouch/Box/PhD/CHERISH/CHERISH/deidRaw/output/cherish.RData")
-
+foreign::write.dta(cherish, file = "C:/Users/fallouch/Box/PhD/CHERISH/CHERISH/deidRaw/output/cherish.dta")
 
 
 
