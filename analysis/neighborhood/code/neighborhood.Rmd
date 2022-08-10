@@ -1,0 +1,1390 @@
+---
+title: "Neighborhood"
+author: "Farah Allouch"
+date: "`r format(Sys.time(), ' %B %d, %Y')`"
+output:
+  word_document:
+    toc: yes
+  pdf_document:
+    toc: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      warning = FALSE,
+                      message = FALSE)
+
+rm(list = ls())
+options(scipen = 999)
+
+library(tidyverse)
+library(gtsummary)
+```
+
+```{r setup2}
+load("C:/Users/fallouch/Box/PhD/CHERISH/CHERISH/deidRaw/output/cherish.RData")
+
+cherish <- cherish %>% 
+  select(a_there_are_walkable_sidew.factor, b_there_are_facilities_to.factor, c_my_neighborhood_has_free.factor, d_there_are_many_shops_sto.factor,
+         e_a_large_selection_of_fre.factor,
+         a_people_around_here_are_w.factor, b_people_in_my_neighborhoo.factor, c_people_in_my_neighborhoo.factor, d_people_in_my_neighborhoo.factor,
+         e_i_feel_safe_walking_in_m.factor, f_violence_is_a_problem_in.factor,
+         a_asking_questions_to_your.factor, c_understanding_medical_tr.factor,
+         q16.factor, q17.factor,
+         #q17a___1.factor, q17a___2.factor, q17a___3.factor, q17a___4.factor, q17a___5.factor,
+         q20.factor, 
+         #q21___1.factor, q21___2.factor, q21___3.factor, q21___4.factor, q21___5.factor, q21___6.factor, q21___7.factor, q21___8.factor, q21___9.factor,
+         q28, q29.factor, q33.factor)
+```
+
+```{r}
+cherish <- cherish %>% 
+  mutate(a_there_are_walkable_sidew.factor_numeric = as.numeric(case_when(a_there_are_walkable_sidew.factor == "Strongly Disagree" ~ 1,
+                                                               a_there_are_walkable_sidew.factor == "Somewhat Disagree" ~ 2,
+                                                               a_there_are_walkable_sidew.factor == "Neutral" ~ 3,
+                                                               a_there_are_walkable_sidew.factor == "Somewhat Agree" ~ 4,
+                                                               a_there_are_walkable_sidew.factor == "Strongly Agree" ~ 5)),
+         a_there_are_walkable_sidew.factor_dich = ifelse(a_there_are_walkable_sidew.factor == "Strongly Agree" |
+                                                              a_there_are_walkable_sidew.factor == "Somewhat Agree", 1, 0),
+         b_there_are_facilities_to.factor_numeric = as.numeric(case_when(b_there_are_facilities_to.factor == "Strongly Disagree" ~ 1,
+                                                               b_there_are_facilities_to.factor == "Somewhat Disagree" ~ 2,
+                                                               b_there_are_facilities_to.factor == "Neutral" ~ 3,
+                                                               b_there_are_facilities_to.factor == "Somewhat Agree" ~ 4,
+                                                               b_there_are_facilities_to.factor == "Strongly Agree" ~ 5)),
+         b_there_are_facilities_to.factor_dich = ifelse(b_there_are_facilities_to.factor == "Strongly Agree" |
+                                                              b_there_are_facilities_to.factor == "Somewhat Agree", 1, 0),
+         c_my_neighborhood_has_free.factor_numeric = as.numeric(case_when(c_my_neighborhood_has_free.factor == "Strongly Disagree" ~ 1,
+                                                               c_my_neighborhood_has_free.factor == "Somewhat Disagree" ~ 2,
+                                                               c_my_neighborhood_has_free.factor == "Neutral" ~ 3,
+                                                               c_my_neighborhood_has_free.factor == "Somewhat Agree" ~ 4,
+                                                               c_my_neighborhood_has_free.factor == "Strongly Agree" ~ 5)),
+         c_my_neighborhood_has_free.factor_dich = ifelse(c_my_neighborhood_has_free.factor == "Strongly Agree" |
+                                                              c_my_neighborhood_has_free.factor == "Somewhat Agree", 1, 0),
+         d_there_are_many_shops_sto.factor_numeric = as.numeric(case_when(d_there_are_many_shops_sto.factor == "Strongly Disagree" ~ 1,
+                                                               d_there_are_many_shops_sto.factor == "Somewhat Disagree" ~ 2,
+                                                               d_there_are_many_shops_sto.factor == "Neutral" ~ 3,
+                                                               d_there_are_many_shops_sto.factor == "Somewhat Agree" ~ 4,
+                                                               d_there_are_many_shops_sto.factor == "Strongly Agree" ~ 5)),
+         d_there_are_many_shops_sto.factor_dich = ifelse(d_there_are_many_shops_sto.factor == "Strongly Agree" |
+                                                              d_there_are_many_shops_sto.factor == "Somewhat Agree", 1, 0),
+         e_a_large_selection_of_fre.factor_numeric = as.numeric(case_when(e_a_large_selection_of_fre.factor == "Strongly Disagree" ~ 1,
+                                                               e_a_large_selection_of_fre.factor == "Somewhat Disagree" ~ 2,
+                                                               e_a_large_selection_of_fre.factor == "Neutral" ~ 3,
+                                                               e_a_large_selection_of_fre.factor == "Somewhat Agree" ~ 4,
+                                                               e_a_large_selection_of_fre.factor == "Strongly Agree" ~ 5)),
+         e_a_large_selection_of_fre.factor_dich = ifelse(e_a_large_selection_of_fre.factor == "Strongly Agree" |
+                                                              e_a_large_selection_of_fre.factor == "Somewhat Agree", 1, 0),
+         a_people_around_here_are_w.factor_numeric = as.numeric(case_when(a_people_around_here_are_w.factor == "Strongly Disagree" ~ 1,
+                                                               a_people_around_here_are_w.factor == "Somewhat Disagree" ~ 2,
+                                                               a_people_around_here_are_w.factor == "Neutral" ~ 3,
+                                                               a_people_around_here_are_w.factor == "Somewhat Agree" ~ 4,
+                                                               a_people_around_here_are_w.factor == "Strongly Agree" ~ 5)),
+         a_people_around_here_are_w.factor_dich = ifelse(a_people_around_here_are_w.factor == "Strongly Agree" |
+                                                              a_people_around_here_are_w.factor == "Somewhat Agree", 1, 0),
+         b_people_in_my_neighborhoo.factor_numeric = as.numeric(case_when(b_people_in_my_neighborhoo.factor == "Strongly Disagree" ~ 1,
+                                                               b_people_in_my_neighborhoo.factor == "Somewhat Disagree" ~ 2,
+                                                               b_people_in_my_neighborhoo.factor == "Neutral" ~ 3,
+                                                               b_people_in_my_neighborhoo.factor == "Somewhat Agree" ~ 4,
+                                                               b_people_in_my_neighborhoo.factor == "Strongly Agree" ~ 5)),
+         b_people_in_my_neighborhoo.factor_dich = ifelse(b_people_in_my_neighborhoo.factor == "Strongly Agree" |
+                                                              b_people_in_my_neighborhoo.factor == "Somewhat Agree", 1, 0),
+         c_people_in_my_neighborhoo.factor_numeric = as.numeric(case_when(c_people_in_my_neighborhoo.factor == "Strongly Disagree" ~ 1,
+                                                               c_people_in_my_neighborhoo.factor == "Somewhat Disagree" ~ 2,
+                                                               c_people_in_my_neighborhoo.factor == "Neutral" ~ 3,
+                                                               c_people_in_my_neighborhoo.factor == "Somewhat Agree" ~ 4,
+                                                               c_people_in_my_neighborhoo.factor == "Strongly Agree" ~ 5)),
+         c_people_in_my_neighborhoo.factor_dich = ifelse(c_people_in_my_neighborhoo.factor == "Strongly Agree" |
+                                                              c_people_in_my_neighborhoo.factor == "Somewhat Agree", 1, 0),
+         d_people_in_my_neighborhoo.factor_numeric = as.numeric(case_when(d_people_in_my_neighborhoo.factor == "Strongly Disagree" ~ 1,
+                                                               d_people_in_my_neighborhoo.factor == "Somewhat Disagree" ~ 2,
+                                                               d_people_in_my_neighborhoo.factor == "Neutral" ~ 3,
+                                                               d_people_in_my_neighborhoo.factor == "Somewhat Agree" ~ 4,
+                                                               d_people_in_my_neighborhoo.factor == "Strongly Agree" ~ 5)),
+         d_people_in_my_neighborhoo.factor_dich = ifelse(d_people_in_my_neighborhoo.factor == "Strongly Agree" |
+                                                              d_people_in_my_neighborhoo.factor == "Somewhat Agree", 1, 0),
+         e_i_feel_safe_walking_in_m.factor_numeric = as.numeric(case_when(e_i_feel_safe_walking_in_m.factor == "Strongly Disagree" ~ 1,
+                                                               e_i_feel_safe_walking_in_m.factor == "Somewhat Disagree" ~ 2,
+                                                               e_i_feel_safe_walking_in_m.factor == "Neutral" ~ 3,
+                                                               e_i_feel_safe_walking_in_m.factor == "Somewhat Agree" ~ 4,
+                                                               e_i_feel_safe_walking_in_m.factor == "Strongly Agree" ~ 5)),
+         e_i_feel_safe_walking_in_m.factor_dich = ifelse(e_i_feel_safe_walking_in_m.factor == "Strongly Agree" |
+                                                              e_i_feel_safe_walking_in_m.factor == "Somewhat Agree", 1, 0),
+         f_violence_is_a_problem_in.factor_numeric = as.numeric(case_when(f_violence_is_a_problem_in.factor == "Strongly Disagree" ~ 1,
+                                                               f_violence_is_a_problem_in.factor == "Somewhat Disagree" ~ 2,
+                                                               f_violence_is_a_problem_in.factor == "Neutral" ~ 3,
+                                                               f_violence_is_a_problem_in.factor == "Somewhat Agree" ~ 4,
+                                                               f_violence_is_a_problem_in.factor == "Strongly Agree" ~ 5)),
+         f_violence_is_a_problem_in.factor_dich = ifelse(f_violence_is_a_problem_in.factor == "Strongly Agree" |
+                                                              f_violence_is_a_problem_in.factor == "Somewhat Agree", 1, 0),
+         a_asking_questions_to_your.factor_numeric = as.numeric(case_when(a_asking_questions_to_your.factor == "Not at All" ~ 1,
+                                                               a_asking_questions_to_your.factor == "A Little Bit" ~ 2,
+                                                               a_asking_questions_to_your.factor == "Somewhat" ~ 3,
+                                                               a_asking_questions_to_your.factor == "Quite a Bit" ~ 4,
+                                                               a_asking_questions_to_your.factor == "Extremely" ~ 5)),
+         a_asking_questions_to_your.factor_dich = ifelse(a_asking_questions_to_your.factor == "Extremely" |
+                                                              a_asking_questions_to_your.factor == "Quite a Bit", 1, 0),
+         c_understanding_medical_tr.factor_numeric = as.numeric(case_when(c_understanding_medical_tr.factor == "Not at All" ~ 1,
+                                                               c_understanding_medical_tr.factor == "A Little Bit" ~ 2,
+                                                               c_understanding_medical_tr.factor == "Somewhat" ~ 3,
+                                                               c_understanding_medical_tr.factor == "Quite a Bit" ~ 4,
+                                                               c_understanding_medical_tr.factor == "Extremely" ~ 5)),
+         c_understanding_medical_tr.factor_dich = ifelse(c_understanding_medical_tr.factor == "Extremely" |
+                                                              c_understanding_medical_tr.factor == "Quite a Bit", 1, 0),
+         q16.factor = case_when(q16.factor == "Yes" ~ 1,
+                                       q16.factor == "No" ~ 0),
+         q17.factor = case_when(q17.factor == "Yes" ~ 1,
+                                       q17.factor == "No" ~ 0),
+         q20.factor = ifelse(q20.factor == "Within the past year", 1, 0),
+         age_dich = ifelse(q28 <= 65, "<= 65", "> 65"),
+         educ_dich = ifelse((q33.factor == "Grade 8 or less" |
+                              q33.factor == "Some high school, no diploma" |
+                               q33.factor == "High school graduate, GED or Equivalent"), "<= HS", ">= some college"),
+         educ_dich_2 = ifelse((q33.factor == "Grade 8 or less" |
+                              q33.factor == "Some high school, no diploma" |
+                               q33.factor == "High school graduate, GED or Equivalent" |
+                                q33.factor == "Some college, no degree"), "<= some college", ">= college degree"))
+
+cherish <- cherish %>% 
+  mutate(pa_walk_sum = a_there_are_walkable_sidew.factor_numeric + b_there_are_facilities_to.factor_numeric + c_my_neighborhood_has_free.factor_numeric + d_there_are_many_shops_sto.factor_numeric,
+         pa_walk_avg = rowMeans(select(cherish, c(a_there_are_walkable_sidew.factor_numeric, b_there_are_facilities_to.factor_numeric, c_my_neighborhood_has_free.factor_numeric, d_there_are_many_shops_sto.factor_numeric))),
+         soc_adh_sum = a_people_around_here_are_w.factor_numeric + b_people_in_my_neighborhoo.factor_numeric + c_people_in_my_neighborhoo.factor_numeric + d_people_in_my_neighborhoo.factor_numeric,
+         soc_adh_avg = rowMeans(select(cherish, c(a_people_around_here_are_w.factor_numeric, b_people_in_my_neighborhoo.factor_numeric, c_people_in_my_neighborhoo.factor_numeric, d_people_in_my_neighborhoo.factor_numeric))),
+         safety_sum = e_i_feel_safe_walking_in_m.factor_numeric + f_violence_is_a_problem_in.factor_numeric,
+         safety_avg = rowMeans(select(cherish, c(e_i_feel_safe_walking_in_m.factor_numeric,  f_violence_is_a_problem_in.factor_numeric))),
+         confidence_sum = a_asking_questions_to_your.factor_numeric + c_understanding_medical_tr.factor_numeric,
+         confidence_avg = rowMeans(select(cherish, c(a_asking_questions_to_your.factor_numeric, c_understanding_medical_tr.factor_numeric))))
+  
+```
+
+\newpage
+# Descriptive analysis
+```{r}
+cherish %>% 
+  select(-c(a_there_are_walkable_sidew.factor, b_there_are_facilities_to.factor, c_my_neighborhood_has_free.factor, d_there_are_many_shops_sto.factor,
+         e_a_large_selection_of_fre.factor,
+         a_people_around_here_are_w.factor, b_people_in_my_neighborhoo.factor, c_people_in_my_neighborhoo.factor, d_people_in_my_neighborhoo.factor,
+         e_i_feel_safe_walking_in_m.factor, f_violence_is_a_problem_in.factor,
+         a_asking_questions_to_your.factor, c_understanding_medical_tr.factor)) %>% 
+  tbl_summary(digits = ~ c(1)) %>% 
+  bold_labels()
+```
+
+\newpage
+# Relationship between composite exposures and outcomes
+## Physical activity and walkability
+### Medication adherence
+```{r}
+cherish %>% 
+  select(pa_walk_sum, pa_walk_avg,
+         q17.factor,
+         age_dich, q29.factor, educ_dich, educ_dich_2) %>% 
+  tbl_summary(by = q17.factor,
+              digits = ~ c(1)) %>% 
+  bold_labels()
+
+glm(q17.factor ~ pa_walk_sum,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q17.factor ~ pa_walk_avg,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q17.factor ~ pa_walk_sum + age_dich + q29.factor,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q17.factor ~ pa_walk_avg + age_dich + q29.factor,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q17.factor ~ pa_walk_sum + age_dich + q29.factor + educ_dich,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q17.factor ~ pa_walk_avg + age_dich + q29.factor + educ_dich,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q17.factor ~ pa_walk_sum + age_dich + q29.factor + educ_dich_2,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q17.factor ~ pa_walk_avg + age_dich + q29.factor + educ_dich_2,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+```
+
+### Confidence
+```{r}
+glm(a_asking_questions_to_your.factor_numeric ~ pa_walk_sum,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_numeric ~ pa_walk_sum + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_numeric ~ pa_walk_sum + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_numeric ~ pa_walk_sum + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_numeric ~ pa_walk_avg,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_numeric ~ pa_walk_avg + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_numeric ~ pa_walk_avg + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_numeric ~ pa_walk_avg + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_dich ~ pa_walk_sum,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(a_asking_questions_to_your.factor_dich ~ pa_walk_sum + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_dich ~ pa_walk_sum + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_dich ~ pa_walk_sum + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_dich ~ pa_walk_avg,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(a_asking_questions_to_your.factor_dich ~ pa_walk_avg + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_dich ~ pa_walk_avg + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_dich ~ pa_walk_avg + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_numeric ~ pa_walk_sum,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_numeric ~ pa_walk_sum + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_numeric ~ pa_walk_sum + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_numeric ~ pa_walk_sum + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_numeric ~ pa_walk_avg,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_numeric ~ pa_walk_avg + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_numeric ~ pa_walk_avg + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_numeric ~ pa_walk_avg + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_dich ~ pa_walk_sum,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(c_understanding_medical_tr.factor_dich ~ pa_walk_sum + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_dich ~ pa_walk_sum + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_dich ~ pa_walk_sum + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_dich ~ pa_walk_avg,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(c_understanding_medical_tr.factor_dich ~ pa_walk_avg + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_dich ~ pa_walk_avg + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_dich ~ pa_walk_avg + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_sum ~ pa_walk_sum,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_sum ~ pa_walk_sum + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_sum ~ pa_walk_sum + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_sum ~ pa_walk_sum + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_sum ~ pa_walk_avg,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_sum ~ pa_walk_avg + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_sum ~ pa_walk_avg + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_sum ~ pa_walk_avg + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_avg ~ pa_walk_sum,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_avg ~ pa_walk_sum + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_avg ~ pa_walk_sum + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_avg ~ pa_walk_sum + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_avg ~ pa_walk_avg,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_avg ~ pa_walk_avg + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_avg ~ pa_walk_avg + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_avg ~ pa_walk_avg + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+```
+
+### Medical care
+```{r}
+cherish %>% 
+  select(pa_walk_sum, pa_walk_avg,
+         q20.factor,
+         age_dich, q29.factor, educ_dich, educ_dich_2) %>% 
+  tbl_summary(by = q20.factor,
+              digits = ~ c(1)) %>% 
+  bold_labels()
+
+glm(q20.factor ~ pa_walk_sum,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q20.factor ~ pa_walk_avg,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q20.factor ~ pa_walk_sum + age_dich + q29.factor,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q20.factor ~ pa_walk_avg + age_dich + q29.factor,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q20.factor ~ pa_walk_sum + age_dich + q29.factor + educ_dich,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q20.factor ~ pa_walk_avg + age_dich + q29.factor + educ_dich,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q20.factor ~ pa_walk_sum + age_dich + q29.factor + educ_dich_2,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q20.factor ~ pa_walk_avg + age_dich + q29.factor + educ_dich_2,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+```
+
+
+\newpage
+## Availability of healthy foods
+### Medication adherence
+```{r}
+cherish %>% 
+  select(e_a_large_selection_of_fre.factor_numeric, e_a_large_selection_of_fre.factor_dich,
+         q17.factor,
+         age_dich, q29.factor, educ_dich, educ_dich_2) %>% 
+  tbl_summary(by = q17.factor,
+              digits = ~ c(1)) %>% 
+  bold_labels()
+
+glm(q17.factor ~ e_a_large_selection_of_fre.factor_numeric,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q17.factor ~ e_a_large_selection_of_fre.factor_dich,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q17.factor ~ e_a_large_selection_of_fre.factor_numeric + age_dich + q29.factor,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q17.factor ~ e_a_large_selection_of_fre.factor_dich + age_dich + q29.factor,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q17.factor ~ e_a_large_selection_of_fre.factor_numeric + age_dich + q29.factor + educ_dich,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q17.factor ~ e_a_large_selection_of_fre.factor_dich + age_dich + q29.factor + educ_dich,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q17.factor ~ e_a_large_selection_of_fre.factor_numeric + age_dich + q29.factor + educ_dich_2,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q17.factor ~ e_a_large_selection_of_fre.factor_dich + age_dich + q29.factor + educ_dich_2,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+```
+
+### Confidence
+```{r}
+glm(a_asking_questions_to_your.factor_numeric ~ e_a_large_selection_of_fre.factor_numeric,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_numeric ~ e_a_large_selection_of_fre.factor_numeric + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_numeric ~ e_a_large_selection_of_fre.factor_numeric + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_numeric ~ e_a_large_selection_of_fre.factor_numeric + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_numeric ~ e_a_large_selection_of_fre.factor_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_numeric ~ e_a_large_selection_of_fre.factor_dich + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_numeric ~ e_a_large_selection_of_fre.factor_dich + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_numeric ~ e_a_large_selection_of_fre.factor_dich + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_dich ~ e_a_large_selection_of_fre.factor_numeric,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(a_asking_questions_to_your.factor_dich ~ e_a_large_selection_of_fre.factor_numeric + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_dich ~ e_a_large_selection_of_fre.factor_numeric + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_dich ~ e_a_large_selection_of_fre.factor_numeric + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_dich ~ e_a_large_selection_of_fre.factor_dich,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(a_asking_questions_to_your.factor_dich ~ e_a_large_selection_of_fre.factor_dich + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_dich ~ e_a_large_selection_of_fre.factor_dich + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_dich ~ e_a_large_selection_of_fre.factor_dich + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_numeric ~ e_a_large_selection_of_fre.factor_numeric,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_numeric ~ e_a_large_selection_of_fre.factor_numeric + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_numeric ~ e_a_large_selection_of_fre.factor_numeric + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_numeric ~ e_a_large_selection_of_fre.factor_numeric + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_numeric ~ e_a_large_selection_of_fre.factor_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_numeric ~ e_a_large_selection_of_fre.factor_dich + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_numeric ~ e_a_large_selection_of_fre.factor_dich + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_numeric ~ e_a_large_selection_of_fre.factor_dich + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_dich ~ e_a_large_selection_of_fre.factor_numeric,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(c_understanding_medical_tr.factor_dich ~ e_a_large_selection_of_fre.factor_numeric + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_dich ~ e_a_large_selection_of_fre.factor_numeric + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_dich ~ e_a_large_selection_of_fre.factor_numeric + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_dich ~ e_a_large_selection_of_fre.factor_dich,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(c_understanding_medical_tr.factor_dich ~ e_a_large_selection_of_fre.factor_dich + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_dich ~ e_a_large_selection_of_fre.factor_dich + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_dich ~ e_a_large_selection_of_fre.factor_dich + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_sum ~ e_a_large_selection_of_fre.factor_numeric,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_sum ~ e_a_large_selection_of_fre.factor_numeric + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_sum ~ e_a_large_selection_of_fre.factor_numeric + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_sum ~ e_a_large_selection_of_fre.factor_numeric + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_sum ~ e_a_large_selection_of_fre.factor_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_sum ~ e_a_large_selection_of_fre.factor_dich + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_sum ~ e_a_large_selection_of_fre.factor_dich + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_sum ~ e_a_large_selection_of_fre.factor_dich + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_avg ~ e_a_large_selection_of_fre.factor_numeric,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_avg ~ e_a_large_selection_of_fre.factor_numeric + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_avg ~ e_a_large_selection_of_fre.factor_numeric + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_avg ~ e_a_large_selection_of_fre.factor_numeric + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_avg ~ e_a_large_selection_of_fre.factor_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_avg ~ e_a_large_selection_of_fre.factor_dich + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_avg ~ e_a_large_selection_of_fre.factor_dich + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_avg ~ e_a_large_selection_of_fre.factor_dich + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+```
+
+### Medical care
+```{r}
+cherish %>% 
+  select(e_a_large_selection_of_fre.factor_numeric, e_a_large_selection_of_fre.factor_dich,
+         q20.factor,
+         age_dich, q29.factor, educ_dich, educ_dich_2) %>% 
+  tbl_summary(by = q20.factor,
+              digits = ~ c(1)) %>% 
+  bold_labels()
+
+glm(q20.factor ~ e_a_large_selection_of_fre.factor_numeric,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q20.factor ~ e_a_large_selection_of_fre.factor_dich,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q20.factor ~ e_a_large_selection_of_fre.factor_numeric + age_dich + q29.factor,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q20.factor ~ e_a_large_selection_of_fre.factor_dich + age_dich + q29.factor,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q20.factor ~ e_a_large_selection_of_fre.factor_numeric + age_dich + q29.factor + educ_dich,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q20.factor ~ e_a_large_selection_of_fre.factor_dich + age_dich + q29.factor + educ_dich,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q20.factor ~ e_a_large_selection_of_fre.factor_numeric + age_dich + q29.factor + educ_dich_2,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q20.factor ~ e_a_large_selection_of_fre.factor_dich + age_dich + q29.factor + educ_dich_2,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+```
+
+\newpage
+## Social cohesion
+### Medication adherence
+```{r}
+cherish %>% 
+  select(soc_adh_sum, soc_adh_avg,
+         q17.factor,
+         age_dich, q29.factor, educ_dich, educ_dich_2) %>% 
+  tbl_summary(by = q17.factor,
+              digits = ~ c(1)) %>% 
+  bold_labels()
+
+glm(q17.factor ~ soc_adh_sum,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q17.factor ~ soc_adh_avg,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q17.factor ~ soc_adh_sum + age_dich + q29.factor,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q17.factor ~ soc_adh_avg + age_dich + q29.factor,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q17.factor ~ soc_adh_sum + age_dich + q29.factor + educ_dich,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q17.factor ~ soc_adh_avg + age_dich + q29.factor + educ_dich,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q17.factor ~ soc_adh_sum + age_dich + q29.factor + educ_dich_2,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q17.factor ~ soc_adh_avg + age_dich + q29.factor + educ_dich_2,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+```
+
+### Confidence
+```{r}
+glm(a_asking_questions_to_your.factor_numeric ~ soc_adh_sum,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_numeric ~ soc_adh_sum + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_numeric ~ soc_adh_sum + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_numeric ~ soc_adh_sum + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_numeric ~ soc_adh_avg,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_numeric ~ soc_adh_avg + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_numeric ~ soc_adh_avg + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_numeric ~ soc_adh_avg + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_dich ~ soc_adh_sum,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(a_asking_questions_to_your.factor_dich ~ soc_adh_sum + age_dich + q29.factor,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_dich ~ soc_adh_sum + age_dich + q29.factor + educ_dich,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_dich ~ soc_adh_sum + age_dich + q29.factor + educ_dich_2,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_dich ~ soc_adh_avg,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(a_asking_questions_to_your.factor_dich ~ soc_adh_avg + age_dich + q29.factor,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_dich ~ soc_adh_avg + age_dich + q29.factor + educ_dich,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_dich ~ soc_adh_avg + age_dich + q29.factor + educ_dich_2,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_numeric ~ soc_adh_sum,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_numeric ~ soc_adh_sum + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_numeric ~ soc_adh_sum + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_numeric ~ soc_adh_sum + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_numeric ~ soc_adh_avg,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_numeric ~ soc_adh_avg + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_numeric ~ soc_adh_avg + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_numeric ~ soc_adh_avg + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_dich ~ soc_adh_sum,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(c_understanding_medical_tr.factor_dich ~ soc_adh_sum + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_dich ~ soc_adh_sum + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_dich ~ soc_adh_sum + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_dich ~ soc_adh_avg,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(c_understanding_medical_tr.factor_dich ~ soc_adh_avg + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_dich ~ soc_adh_avg + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_dich ~ soc_adh_avg + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_sum ~ soc_adh_sum,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_sum ~ soc_adh_sum + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_sum ~ soc_adh_sum + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_sum ~ soc_adh_sum + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_sum ~ soc_adh_avg,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_sum ~ soc_adh_avg + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_sum ~ soc_adh_avg + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_sum ~ soc_adh_avg + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_avg ~ soc_adh_sum,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_avg ~ soc_adh_sum + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_avg ~ soc_adh_sum + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_avg ~ soc_adh_sum + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_avg ~ soc_adh_avg,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_avg ~ soc_adh_avg + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_avg ~ soc_adh_avg + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_avg ~ soc_adh_avg + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+```
+
+### Medical care
+```{r}
+cherish %>% 
+  select(soc_adh_sum, soc_adh_avg,
+         q20.factor,
+         age_dich, q29.factor, educ_dich, educ_dich_2) %>% 
+  tbl_summary(by = q20.factor,
+              digits = ~ c(1)) %>% 
+  bold_labels()
+
+glm(q20.factor ~ soc_adh_sum,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q20.factor ~ soc_adh_avg,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q20.factor ~ soc_adh_sum + age_dich + q29.factor,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q20.factor ~ soc_adh_avg + age_dich + q29.factor,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q20.factor ~ soc_adh_sum + age_dich + q29.factor + educ_dich,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q20.factor ~ soc_adh_avg + age_dich + q29.factor + educ_dich,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q20.factor ~ soc_adh_sum + age_dich + q29.factor + educ_dich_2,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q20.factor ~ soc_adh_avg + age_dich + q29.factor + educ_dich_2,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+```
+
+\newpage
+## Safety
+### Medication adherence
+```{r}
+cherish %>% 
+  select(safety_sum, safety_avg,
+         q17.factor,
+         age_dich, q29.factor, educ_dich, educ_dich_2) %>% 
+  tbl_summary(by = q17.factor,
+              digits = ~ c(1)) %>% 
+  bold_labels()
+
+glm(q17.factor ~ safety_sum,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q17.factor ~ safety_avg,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q17.factor ~ safety_sum + age_dich + q29.factor,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q17.factor ~ safety_avg + age_dich + q29.factor,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q17.factor ~ safety_sum + age_dich + q29.factor + educ_dich,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q17.factor ~ safety_avg + age_dich + q29.factor + educ_dich,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q17.factor ~ safety_sum + age_dich + q29.factor + educ_dich_2,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q17.factor ~ safety_avg + age_dich + q29.factor + educ_dich_2,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+```
+
+### Confidence
+```{r}
+glm(a_asking_questions_to_your.factor_numeric ~ safety_sum,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_numeric ~ safety_sum + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_numeric ~ safety_sum + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_numeric ~ safety_sum + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_numeric ~ safety_avg,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_numeric ~ safety_avg + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_numeric ~ safety_avg + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_numeric ~ safety_avg + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_dich ~ safety_sum,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(a_asking_questions_to_your.factor_dich ~ safety_sum + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_dich ~ safety_sum + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_dich ~ safety_sum + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_dich ~ safety_avg,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(a_asking_questions_to_your.factor_dich ~ safety_avg + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_dich ~ safety_avg + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(a_asking_questions_to_your.factor_dich ~ safety_avg + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_numeric ~ safety_sum,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_numeric ~ safety_sum + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_numeric ~ safety_sum + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_numeric ~ safety_sum + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_numeric ~ safety_avg,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_numeric ~ safety_avg + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_numeric ~ safety_avg + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_numeric ~ safety_avg + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_dich ~ safety_sum,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(c_understanding_medical_tr.factor_dich ~ safety_sum + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_dich ~ safety_sum + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_dich ~ safety_sum + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_dich ~ safety_avg,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(c_understanding_medical_tr.factor_dich ~ safety_avg + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_dich ~ safety_avg + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(c_understanding_medical_tr.factor_dich ~ safety_avg + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_sum ~ safety_sum,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_sum ~ safety_sum + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_sum ~ safety_sum + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_sum ~ safety_sum + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_sum ~ safety_avg,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_sum ~ safety_avg + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_sum ~ safety_avg + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_sum ~ safety_avg + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_avg ~ safety_sum,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_avg ~ safety_sum + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_avg ~ safety_sum + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_avg ~ safety_sum + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_avg ~ safety_avg,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_avg ~ safety_avg + age_dich + q29.factor,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_avg ~ safety_avg + age_dich + q29.factor + educ_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+glm(confidence_avg ~ safety_avg + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+```
+
+### Medical care
+```{r}
+cherish %>% 
+  select(safety_sum, safety_avg,
+         q20.factor,
+         age_dich, q29.factor, educ_dich, educ_dich_2) %>% 
+  tbl_summary(by = q20.factor,
+              digits = ~ c(1)) %>% 
+  bold_labels()
+
+glm(q20.factor ~ safety_sum,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q20.factor ~ safety_avg,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q20.factor ~ safety_sum + age_dich + q29.factor,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q20.factor ~ safety_avg + age_dich + q29.factor,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q20.factor ~ safety_sum + age_dich + q29.factor + educ_dich,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q20.factor ~ safety_avg + age_dich + q29.factor + educ_dich,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q20.factor ~ safety_sum + age_dich + q29.factor + educ_dich_2,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q20.factor ~ safety_avg + age_dich + q29.factor + educ_dich_2,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+```
