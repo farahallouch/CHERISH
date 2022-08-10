@@ -1,0 +1,386 @@
+---
+title: "tables"
+author: "Farah Allouch"
+date: "`r format(Sys.time(), ' %B %d, %Y')`"
+output:
+  word_document:
+    toc: yes
+  pdf_document:
+    toc: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      warning = FALSE,
+                      message = FALSE)
+
+rm(list = ls())
+options(scipen = 999)
+
+library(tidyverse)
+library(gtsummary)
+```
+
+\newpage
+```{r}
+load("C:/Users/fallouch/Box/PhD/CHERISH/CHERISH/deidRaw/output/cherish.RData")
+
+cherish <- cherish %>% 
+  select(q6.factor, q7.factor, q8.factor,
+         q10.factor, q12.factor, q14.factor, 
+         a_asking_questions_to_your.factor, c_understanding_medical_tr.factor,
+         a_religious_spiritual_beli.factor, b_i_tend_to_avoid_things_h.factor,
+         q28, q29.factor, q33.factor)
+
+cherish <- cherish %>% 
+  mutate(q6.factor = case_when(q6.factor == "Yes" ~ 1,
+                               q6.factor == "No" ~ 0),
+         q7.factor = case_when(q7.factor == "Yes" ~ 1,
+                               q7.factor == "No" ~ 0),
+         q8.factor = case_when(q8.factor == "Yes" ~ 1,
+                               q8.factor == "No" ~ 0),
+         q10.factor = case_when(q10.factor == "Yes" ~ 1,
+                                q10.factor == "No" ~ 0),
+         q12.factor = case_when(q12.factor == "Yes" ~ 1,
+                                q12.factor == "No" ~ 0),
+         q14.factor = case_when(q14.factor == "Yes" ~ 1,
+                                q14.factor == "No" ~ 0),
+         a_asking_questions_to_your.factor_numeric = as.numeric(case_when(a_asking_questions_to_your.factor == "Not at All" ~ 1,
+                                                               a_asking_questions_to_your.factor == "A Little Bit" ~ 2,
+                                                               a_asking_questions_to_your.factor == "Somewhat" ~ 3,
+                                                               a_asking_questions_to_your.factor == "Quite a Bit" ~ 4,
+                                                               a_asking_questions_to_your.factor == "Extremely" ~ 5)),
+         c_understanding_medical_tr.factor_numeric = as.numeric(case_when(c_understanding_medical_tr.factor == "Not at All" ~ 1,
+                                                               c_understanding_medical_tr.factor == "A Little Bit" ~ 2,
+                                                               c_understanding_medical_tr.factor == "Somewhat" ~ 3,
+                                                               c_understanding_medical_tr.factor == "Quite a Bit" ~ 4,
+                                                               c_understanding_medical_tr.factor == "Extremely" ~ 5)), 
+         a_religious_spiritual_beli.factor_numeric = as.numeric(case_when(a_religious_spiritual_beli.factor == "Strongly Disagree" ~ 1,
+                                                               a_religious_spiritual_beli.factor == "Somewhat Disagree" ~ 2,
+                                                               a_religious_spiritual_beli.factor == "Neutral" ~ 3,
+                                                               a_religious_spiritual_beli.factor == "Somewhat Agree" ~ 4,
+                                                               a_religious_spiritual_beli.factor == "Strongly Agree" ~ 5)), 
+         b_i_tend_to_avoid_things_h.factor_numeric = as.numeric(case_when(b_i_tend_to_avoid_things_h.factor == "Strongly Disagree" ~ 1,
+                                                               b_i_tend_to_avoid_things_h.factor == "Somewhat Disagree" ~ 2,
+                                                               b_i_tend_to_avoid_things_h.factor == "Neutral" ~ 3,
+                                                               b_i_tend_to_avoid_things_h.factor == "Somewhat Agree" ~ 4,
+                                                               b_i_tend_to_avoid_things_h.factor == "Strongly Agree" ~ 5)))
+
+cherish <- cherish %>%  
+         mutate(asking_qs_dich = ifelse(a_asking_questions_to_your.factor_numeric <= 3, 0, 1),
+                understanding_dich = ifelse(c_understanding_medical_tr.factor_numeric <= 3, 0, 1),
+                a_religion_dich = ifelse(a_religious_spiritual_beli.factor_numeric <= 3, 0, 1),
+                b_religion_dich = ifelse(b_i_tend_to_avoid_things_h.factor_numeric <= 3, 0, 1),
+           smoking_backwards = ifelse(q8.factor == 0, 1, 0),
+         good_health_behaviors_cont = q6.factor + q7.factor + smoking_backwards,
+         adverse_health_outcomes_cont = q10.factor + q12.factor + q14.factor,
+         confidence_cont = a_asking_questions_to_your.factor_numeric + c_understanding_medical_tr.factor_numeric,
+         confidence_avg = rowMeans(select(cherish, c(a_asking_questions_to_your.factor_numeric, c_understanding_medical_tr.factor_numeric))),
+         religion_cont = a_religious_spiritual_beli.factor_numeric + b_i_tend_to_avoid_things_h.factor_numeric,
+         religion_avg = rowMeans(select(cherish, c(a_religious_spiritual_beli.factor_numeric, b_i_tend_to_avoid_things_h.factor_numeric))),
+         age_dich = ifelse(q28 <= 65, "<= 65", "> 65"),
+         educ_dich = ifelse((q33.factor == "Grade 8 or less" |
+                              q33.factor == "Some high school, no diploma" |
+                               q33.factor == "High school graduate, GED or Equivalent"), "<= HS", ">= some college"),
+         educ_dich_2 = ifelse((q33.factor == "Grade 8 or less" |
+                              q33.factor == "Some high school, no diploma" |
+                               q33.factor == "High school graduate, GED or Equivalent" |
+                                q33.factor == "Some college, no degree"), "<= some college", ">= college degree"))
+```
+
+# Table 1
+## Overall
+```{r}
+cherish %>% 
+  select(q6.factor, q7.factor, q8.factor,
+         q10.factor, q12.factor, q14.factor, 
+         a_asking_questions_to_your.factor, c_understanding_medical_tr.factor,
+         a_religious_spiritual_beli.factor, b_i_tend_to_avoid_things_h.factor,
+         q28, q29.factor, q33.factor) %>% 
+  tbl_summary(digits = ~ c(1)) %>% 
+  bold_labels()
+```
+
+\newpage
+## By first religious qst
+```{r}
+cherish %>% 
+  select(q6.factor, q7.factor, q8.factor,
+         q10.factor, q12.factor, q14.factor, 
+         a_asking_questions_to_your.factor, c_understanding_medical_tr.factor,
+         a_religious_spiritual_beli.factor, b_i_tend_to_avoid_things_h.factor,
+         q28, q29.factor, q33.factor,
+         a_religion_dich) %>% 
+  tbl_summary(by = a_religion_dich,
+              digits = ~ c(1)) %>% 
+  bold_labels()
+```
+
+\newpage
+## By second religious qst
+```{r}
+cherish %>% 
+  select(q6.factor, q7.factor, q8.factor,
+         q10.factor, q12.factor, q14.factor, 
+         a_asking_questions_to_your.factor, c_understanding_medical_tr.factor,
+         a_religious_spiritual_beli.factor, b_i_tend_to_avoid_things_h.factor,
+         q28, q29.factor, q33.factor,
+         b_religion_dich) %>% 
+  tbl_summary(by = b_religion_dich,
+              digits = ~ c(1)) %>% 
+  bold_labels()
+```
+
+\newpage
+# Individual outcomes regression
+## Fruits and vegetables
+```{r}
+glm(q6.factor ~ a_religion_dich,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q6.factor ~ a_religion_dich + age_dich + q29.factor + educ_dich_2,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q6.factor ~ b_religion_dich,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q6.factor ~ b_religion_dich + age_dich + q29.factor + educ_dich_2,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+```
+
+\newpage
+## Physical activity
+```{r}
+glm(q7.factor ~ a_religion_dich,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q7.factor ~ a_religion_dich + age_dich + q29.factor + educ_dich_2,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q7.factor ~ b_religion_dich,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q7.factor ~ b_religion_dich + age_dich + q29.factor + educ_dich_2,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+```
+
+\newpage
+## Smoking
+```{r}
+glm(q8.factor ~ a_religion_dich,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q8.factor ~ a_religion_dich + age_dich + q29.factor + educ_dich_2,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q8.factor ~ b_religion_dich,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q8.factor ~ b_religion_dich + age_dich + q29.factor + educ_dich_2,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+```
+
+\newpage
+## Hypertension
+```{r}
+glm(q10.factor ~ a_religion_dich,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q10.factor ~ a_religion_dich + age_dich + q29.factor + educ_dich_2,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q10.factor ~ b_religion_dich,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q10.factor ~ b_religion_dich + age_dich + q29.factor + educ_dich_2,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+```
+
+\newpage
+## Cholesterol
+```{r}
+glm(q12.factor ~ a_religion_dich,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q12.factor ~ a_religion_dich + age_dich + q29.factor + educ_dich_2,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q12.factor ~ b_religion_dich,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q12.factor ~ b_religion_dich + age_dich + q29.factor + educ_dich_2,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+```
+
+\newpage
+## Diabetes
+```{r}
+glm(q14.factor ~ a_religion_dich,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q14.factor ~ a_religion_dich + age_dich + q29.factor + educ_dich_2,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q14.factor ~ b_religion_dich,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(q14.factor ~ b_religion_dich + age_dich + q29.factor + educ_dich_2,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+```
+
+\newpage
+## How confident are you in your ability to ask questions to your health providers?
+```{r}
+glm(asking_qs_dich ~ a_religion_dich,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(asking_qs_dich ~ a_religion_dich + age_dich + q29.factor + educ_dich_2,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(asking_qs_dich ~ b_religion_dich,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(asking_qs_dich ~ b_religion_dich + age_dich + q29.factor + educ_dich_2,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+```
+
+\newpage
+## How confident are you in your ability to understand medical treatment plans?
+```{r}
+glm(understanding_dich ~ a_religion_dich,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(understanding_dich ~ a_religion_dich + age_dich + q29.factor + educ_dich_2,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(understanding_dich ~ b_religion_dich,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+
+glm(understanding_dich ~ b_religion_dich + age_dich + q29.factor + educ_dich_2,
+    data = cherish,
+    family = binomial(link = "logit")) %>% 
+  tbl_regression(exponentiate = TRUE)
+```
+
+\newpage
+# Composite outcomes
+## Health behaviors
+```{r}
+lm(good_health_behaviors_cont ~ a_religion_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+lm(good_health_behaviors_cont ~ a_religion_dich + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+lm(good_health_behaviors_cont ~ b_religion_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+lm(good_health_behaviors_cont ~ b_religion_dich + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+```
+
+\newpage
+## Adverse health outcomes
+```{r}
+lm(adverse_health_outcomes_cont ~ a_religion_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+lm(adverse_health_outcomes_cont ~ a_religion_dich + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+lm(adverse_health_outcomes_cont ~ b_religion_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+lm(adverse_health_outcomes_cont ~ b_religion_dich + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+```
+
+\newpage
+## Confidence in participating in medical care
+```{r}
+lm(confidence_cont ~ a_religion_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+lm(confidence_cont ~ a_religion_dich + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+
+lm(confidence_cont ~ b_religion_dich,
+    data = cherish) %>% 
+  tbl_regression()
+
+lm(confidence_cont ~ b_religion_dich + age_dich + q29.factor + educ_dich_2,
+    data = cherish) %>% 
+  tbl_regression()
+```
